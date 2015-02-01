@@ -10,7 +10,7 @@ describe Competition do
 
   # context is for certain scenarios
   context "having no questions" do
-    before { competition.questions = [] }
+    before { competition.stub(questions: []) }
     # before :each
 
     it "doesn't accept any teams" do
@@ -23,9 +23,16 @@ describe Competition do
   end
 
   context "having questions" do
-    before { competition.questions = [ {title: "Question"}] }
+    before { competition.stub(:questions => [ "stub" ]) }
     subject { competition }
 
     it { should allow_teams_to_enter }
+  end
+
+  context "when stared" do
+    it "is closed" do
+      competition.should_receive :close
+      competition.start
+    end
   end
 end
