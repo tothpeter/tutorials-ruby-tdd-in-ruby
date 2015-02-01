@@ -1,1 +1,7 @@
 Created team "#{@team.name}"
+
+%form{:action => "/teams/1/enter_competition?has_questions=false", method: "POST"}
+  %input{type: "submit", value: "Enter WITHOUT questions"}
+
+%form{:action => "/teams/1/enter_competition?has_questions=true", method: "POST"}
+  %input{type: "submit", value: "Enter WITH questions"}

@@ -27,6 +27,24 @@ class App < Sinatra::Base
     @db.transaction { @team = @db[:team] }
     haml :"teams/success"
   end
+
+  post "/teams/:id/enter_competition" do
+    
+    index = params[:has_questions] == "true" ? 1 : 0
+    competition = nil
+
+    @db.transaction do
+      competition = @db[:competitions][index]
+      @team = @db[:team]
+    end
+
+    begin
+      @team.enter_competition competition
+      200
+    rescue Competition::Closed
+      403
+    end
+  end
   
   private 
   
