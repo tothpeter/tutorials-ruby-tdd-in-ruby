@@ -19,5 +19,8 @@ gem 'spring',        group: :development
 
 group :evelopment, :test do
   gem "guard-rspec"
+  gem "rspec-rails"
   gem "capybara"
+  gem 'guard-minitest'
+  gem 'minitest-reporters'
 end
