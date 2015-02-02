@@ -1,5 +1,6 @@
 require_relative "spec_helper"
-require_relative "../lib/team.rb"
+require_relative "../lib/team"
+require_relative "../lib/player"
 
 describe Team do
   it "has a name" do
@@ -27,6 +28,24 @@ describe Team do
 
     it "fails to create given a bad player list" do
       expect { Team.new("Random name", bad_players) }.to raise_error
+    end
+  end
+
+  context "having a tag" do
+    let(:team) { Team.new("Random team", [], tag: "ruby") }
+
+    it "only accepts members that match its tag" do
+      VCR.use_cassette "twitter-tomaaa08" do
+        rubyist = Player.new "Tomaaa", twitter: "tomaaa08"
+        team.allows_player_to_join?(rubyist).should == true
+      end
+    end
+
+    it "rejects members that don't match its tag" do
+      VCR.use_cassette "twitter-SzntB" do
+        not_rubyist = Player.new "Not rubyist", twitter: "SzntB"
+        team.allows_player_to_join?(not_rubyist).should == false
+      end
     end
   end
 end
